@@ -1,0 +1,23 @@
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+}
+
+subprojects {
+    repositories {
+        mavenCentral()
+    }
+}
+
+project(':a') {
+    dependencies {
+        compile 'com.google.guava:guava:15.0'
+    }
+}
+
+project(':b') {
+    dependencies {
+        compile project(':a')
+        compile 'com.google.guava:guava:16.0.1'
+    }
+}
