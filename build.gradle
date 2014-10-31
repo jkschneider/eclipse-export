@@ -2,6 +2,7 @@ allprojects {
     apply plugin: 'java'
     apply plugin: 'eclipse'
 	apply plugin: 'maven-publish'
+	apply plugin: 'ivy-publish'
 	
 	version = 1.0
 	
@@ -15,15 +16,39 @@ allprojects {
 }
 
 subprojects {
+	apply plugin: 'maven-pubish
+
+	group = 'io.github.jkschneider.eclipseExport'
+    version = '1.0''
+	
     repositories {
 		mavenLocal()
         mavenCentral()
     }
+	
+	task sourceJar(type: Jar) {
+		from sourceSets.main.allJava
+	}
+
+	publishing {
+		repositories { mavenLocal() }
+
+		publications {
+			maven(MavenPublication) {
+				from components.java
+
+				artifact sourceJar {
+					classifier 'sources'
+				}
+			}
+		}
+	}
 }
 
 project(':a') {
     dependencies {
         compile 'com.google.guava:guava:15.0'
+		testCompile 'junit:junit:4.+'
     }
 }
 
